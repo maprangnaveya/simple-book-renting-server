@@ -27,11 +27,29 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = _("users")
 
     @property
-    def is_staff(self):
+    def is_staff(self) -> bool:
         """
         Is user has access to django admin
         """
         return self.is_superuser
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.email
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, primary_key=True, on_delete=models.CASCADE)
+    first_name = models.CharField(_("First name"), blank=False, null=False)
+    last_name = models.CharField(_("Last name"), blank=False, null=False)
+    birth_date = models.DateField(_("Birthdate"), blank=True, null=True)
+
+    class Meta:
+        verbose_name = _("profile")
+        verbose_name_plural = _("profile")
+
+    @property
+    def full_name(self) -> str:
+        return f"{self.first_name} {self.last_name}".strip()
+
+    def __str__(self) -> str:
+        return self.full_name
