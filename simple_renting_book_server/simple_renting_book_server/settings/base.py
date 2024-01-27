@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "simple_renting_book_server",
     "user_manager",
     "book_manager",
+    "rent_manager",
 ]
 
 MIDDLEWARE = [
