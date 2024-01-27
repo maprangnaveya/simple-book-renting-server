@@ -13,7 +13,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     id = models.UUIDField(_("ID"), primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(_("email address"), unique=True)
-    joined_date = models.DateTimeField(_("joined date"), auto_now_add=True)
+    date_joined = models.DateTimeField(_("date joined"), auto_now_add=True)
     is_active = models.BooleanField(_("active status"), default=True)
 
     from user_manager.managers import UserManager
