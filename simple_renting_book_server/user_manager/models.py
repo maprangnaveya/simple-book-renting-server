@@ -18,7 +18,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     from user_manager.managers import UserManager
 
-    objects = UserManager()
+    objects: UserManager = UserManager()
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
