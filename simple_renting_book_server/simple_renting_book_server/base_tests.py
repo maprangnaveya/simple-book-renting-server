@@ -26,7 +26,7 @@ class BaseAPITestCase(APITestCase):
         self.client.force_login(user)
 
     def when_user_get_json(self, format="json"):
-        self.response = self.client.patch(self.url, format=format)
+        self.response = self.client.get(self.url, format=format)
         self.response_json = self.response.json()
 
     def when_user_patch_get_get_json(self, data, format="json"):
