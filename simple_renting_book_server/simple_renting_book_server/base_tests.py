@@ -2,6 +2,8 @@ from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.test import APITestCase
 
+from user_manager.models import Profile
+
 
 User = get_user_model()
 
@@ -17,6 +19,13 @@ class BaseAPITestCase(APITestCase):
         self, email="normal_user@mockup.test", password="strongpassword", role=None
     ):
         return User.objects.create_user(email, password=password, role=role)
+
+    def given_a_new_user_profile(
+        self, user, first_name="Jane", last_name="Doe", birth_date=None
+    ):
+        return Profile.objects.create(
+            user=user, first_name=first_name, last_name=last_name, birth_date=birth_date
+        )
 
     def given_a_request_url(self, url):
         self.url = url
