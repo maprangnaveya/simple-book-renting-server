@@ -43,6 +43,10 @@ urlpatterns = [
         name="schema-swagger-ui",
     ),
     path("api/v1/", include((router_v1.urls, "api"), namespace="v1")),
+    path(
+        "api/v1/auth/password-reset/",
+        include("django_rest_passwordreset.urls", namespace="password_reset"),
+    ),
     path("admin/", admin.site.urls),
     path("__debug__/", include("debug_toolbar.urls")),
 ]

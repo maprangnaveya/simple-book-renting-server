@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "django_filters",
     "debug_toolbar",
+    "django_rest_passwordreset",
     "simple_renting_book_server",
     "user_manager",
     "book_manager",
