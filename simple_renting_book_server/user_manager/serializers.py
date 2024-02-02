@@ -48,7 +48,7 @@ class RegistrationSerializer(serializers.Serializer):
             email=validated_data.get("email"), password=validated_data.get("password")
         )
         token, _ = Token.objects.get_or_create(user=user)
-        return user, token
+        return user, token.key
 
     def update(self, instance, validated_date):
         pass
@@ -81,7 +81,7 @@ class LoginSerializer(serializers.Serializer):
             raise custom_validation_error("Password is incorrect.")
 
         token, _ = Token.objects.get_or_create(user=user)
-        return user, token
+        return user, token.key
 
     def update(self, instance, validated_date):
         pass
