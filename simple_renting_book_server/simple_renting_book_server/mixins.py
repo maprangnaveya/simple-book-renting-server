@@ -111,7 +111,8 @@ class PaginationListViewSetMixin:
             self.pagination_class = None
             self._paginator = None
 
-    def list(self, request, queryset, *args, **kwargs):
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
         self.update_pagination(request)
         page = self.paginate_queryset(queryset)
         if page is not None:
