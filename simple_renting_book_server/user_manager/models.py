@@ -18,7 +18,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     from user_manager.managers import UserManager
 
-    objects = UserManager()
+    objects: UserManager = UserManager()
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
@@ -32,6 +32,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         Is user has access to django admin
         """
         return self.is_superuser
+
+    def get_profile(self):
+        try:
+            return Profile.objects.get(user=self)
+        except Profile.DoesNotExist:
+            return None
 
     def __str__(self) -> str:
         return self.email
