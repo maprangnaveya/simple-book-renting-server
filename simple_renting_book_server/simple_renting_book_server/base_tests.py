@@ -38,15 +38,15 @@ class BaseAPITestCase(APITestCase):
         self.response = self.client.get(self.url, format=format)
         self.response_json = self.response.json()
 
-    def when_user_patch_get_get_json(self, data, format="json"):
+    def when_user_patch_and_get_json(self, data, format="json"):
         self.response = self.client.patch(self.url, data, format=format)
         self.response_json = self.response.json()
 
-    def when_user_post_get_get_json(self, data, format="json"):
+    def when_user_post_and_get_json(self, data, format="json"):
         self.response = self.client.post(self.url, data, format=format)
         self.response_json = self.response.json()
 
-    def when_user_put_get_get_json(self, data, format="json"):
+    def when_user_put_and_get_json(self, data, format="json"):
         self.response = self.client.put(self.url, data, format=format)
         self.response_json = self.response.json()
 

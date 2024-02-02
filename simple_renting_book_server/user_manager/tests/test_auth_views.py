@@ -23,7 +23,7 @@ class AuthViewTestCase(BaseAPITestCase):
 
         data = {"email": self.default_email, "password": self.default_password}
         self.given_a_login_url()
-        self.when_user_post_get_get_json(data)
+        self.when_user_post_and_get_json(data)
 
         self.assertResponseSuccess()
         self.assertIsNotNone(self.response_json["token"])
@@ -34,7 +34,7 @@ class AuthViewTestCase(BaseAPITestCase):
             "password": self.default_password,
         }
         self.given_a_login_url()
-        self.when_user_post_get_get_json(data)
+        self.when_user_post_and_get_json(data)
 
         self.assertResponseBadRequest()
         self.assertIsNotNone(
@@ -44,7 +44,7 @@ class AuthViewTestCase(BaseAPITestCase):
     def test_login_failed_with_incorrect_password(self):
         data = {"email": self.default_email, "password": "VeryWrongPassword"}
         self.given_a_login_url()
-        self.when_user_post_get_get_json(data)
+        self.when_user_post_and_get_json(data)
 
         self.assertResponseBadRequest()
         self.assertIsNotNone(
@@ -54,7 +54,7 @@ class AuthViewTestCase(BaseAPITestCase):
     def test_login_failed_with_missing_data(self):
         data = {}
         self.given_a_login_url()
-        self.when_user_post_get_get_json(data)
+        self.when_user_post_and_get_json(data)
 
         self.assertResponseBadRequest()
         self.assertIsNotNone(
@@ -68,7 +68,7 @@ class AuthViewTestCase(BaseAPITestCase):
             "confirm_password": self.default_password,
         }
         self.given_a_register_url()
-        self.when_user_post_get_get_json(data)
+        self.when_user_post_and_get_json(data)
 
         self.assertResponseCreated()
         self.assertIsNotNone(self.response_json["token"])
@@ -82,7 +82,7 @@ class AuthViewTestCase(BaseAPITestCase):
             "confirm_password": self.default_password,
         }
         self.given_a_register_url()
-        self.when_user_post_get_get_json(data)
+        self.when_user_post_and_get_json(data)
 
         self.assertResponseBadRequest()
         self.assertIsNotNone(
@@ -97,7 +97,7 @@ class AuthViewTestCase(BaseAPITestCase):
             "confirm_password": self.default_password + "-SomeSpecial",
         }
         self.given_a_register_url()
-        self.when_user_post_get_get_json(data)
+        self.when_user_post_and_get_json(data)
 
         self.assertResponseBadRequest()
         self.assertIsNotNone(
