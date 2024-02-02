@@ -21,6 +21,7 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import routers
 
+from book_manager.views import BookViewSet
 from user_manager.views import AuthViewSet, ProfileViewSet
 
 
@@ -35,6 +36,7 @@ api_v1 = get_schema_view(
 router_v1 = routers.DefaultRouter()
 router_v1.register(r"auth", AuthViewSet, basename="auth")
 router_v1.register(r"profile", ProfileViewSet, basename="profile")
+router_v1.register(r"books", BookViewSet, basename="books")
 
 urlpatterns = [
     path(
