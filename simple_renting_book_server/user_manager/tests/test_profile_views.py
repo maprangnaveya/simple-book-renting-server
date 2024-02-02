@@ -81,3 +81,68 @@ class ProfileViewTestCase(BaseAPITestCase):
         self.when_user_get_json()
 
         self.assertResponseNotAuthorized()
+
+    def test_update_profile_success(self):
+        normal_user_profile = self.given_a_default_normal_user_profile()
+
+        self.given_logged_in_user(self.normal_user)
+        self.given_a_me_url()
+
+        data = {
+            "email": "new_email@mockup.test",
+            "first_name": "Brad",
+            "last_name": "Dal",
+            "birth_date": "1990-01-01",
+        }
+        self.when_user_put_and_get_json(data)
+
+        self.assertResponseSuccess()
+        self.assertKeysInProfileResponse()
+
+        self.assertEqual(data["email"], self.response_json["email"])
+        self.assertEqual(data["first_name"], self.response_json["first_name"])
+        self.assertEqual(data["last_name"], self.response_json["last_name"])
+        self.assertEqual(data["birth_date"], self.response_json["birth_date"])
+
+        normal_user_profile.refresh_from_db()
+        self.assertEqual(data["email"], normal_user_profile.user.email)
+        self.assertEqual(data["first_name"], normal_user_profile.first_name)
+        self.assertEqual(data["last_name"], normal_user_profile.last_name)
+        self.assertEqual(data["birth_date"], normal_user_profile.birth_date.isoformat())
+
+    def test_update_profile_failed_with_not_logged_in_user(self):
+        self.given_a_me_url()
+        self.when_user_put_and_get_json(data={})
+
+        self.assertResponseNotAuthorized()
+
+    def test_update_profile_failed_with_duplicated_new_email(self):
+        other_user = self.given_a_new_user(email="other_email@mockup.test")
+        normal_user_profile = self.given_a_default_normal_user_profile()
+
+        self.given_logged_in_user(self.normal_user)
+        self.given_a_me_url()
+
+        data = {
+            "email": other_user.email,
+            "first_name": "Brad",
+            "last_name": "Dal",
+            "birth_date": "1990-01-01",
+        }
+        self.when_user_put_and_get_json(data)
+
+        self.assertResponseBadRequest()
+        self.assertEqual(
+            {
+                "non_field_errors": [
+                    "This email is already being used for another account."
+                ]
+            },
+            self.response_json,
+        )
+
+        normal_user_profile.refresh_from_db()
+        self.assertNotEqual(data["email"], normal_user_profile.user.email)
+        self.assertNotEqual(data["first_name"], normal_user_profile.first_name)
+        self.assertNotEqual(data["last_name"], normal_user_profile.last_name)
+        self.assertNotEqual(data["birth_date"], normal_user_profile.birth_date)
