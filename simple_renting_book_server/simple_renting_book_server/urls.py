@@ -36,6 +36,11 @@ router_v1 = routers.DefaultRouter()
 router_v1.register(r"auth", AuthViewSet, basename="auth")
 
 urlpatterns = [
+    path(
+        "api-explorer/",
+        api_v1.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    ),
     path("api/v1/", include((router_v1.urls, "api"), namespace="v1")),
     path("admin/", admin.site.urls),
     path("__debug__/", include("debug_toolbar.urls")),
