@@ -151,3 +151,7 @@ SUPER_USER_PASS = os.environ.get("SUPER_USER_PASS")
 FRONT_END_URL = os.environ.get("FRONT_END_URL", "http://localhost:8080")
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "no-reply@mockup.test")
 WEBSITE_TITLE = os.environ.get("WEBSITE_TITLE", "Simple Book Renting")
+
+
+# Default file storage mechanism that holds media.
+DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"

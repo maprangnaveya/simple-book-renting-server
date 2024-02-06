@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.postgres.aggregates import StringAgg
 from import_export.admin import ImportExportModelAdmin
 
-from simple_renting_book_server.helpers import get_all_field_names
+from simple_renting_book_server.helpers import get_all_field_names, image_tag_thumbnail
 from simple_renting_book_server.mixins import EagerLoadingAdminChangeListMixin
 
 from .models import Author, Book
@@ -16,12 +16,22 @@ class AuthorAdminView(ImportExportModelAdmin):
     ordering = ("name",)
 
 
+# TODO: Add button to sync books from openlibrary API
 @admin.register(Book)
 class BookAdminView(EagerLoadingAdminChangeListMixin, ImportExportModelAdmin):
     model = Book
-    fields = get_all_field_names(Book)
+    fields = (
+        "id",
+        "isbn",
+        "title",
+        "total_in_store",
+        "authors",
+        "image",
+        "image_tag",
+    )
     readonly_fields = (
         "id",
+        "image_tag",
         "created_at",
     )
     list_display = (
@@ -47,3 +57,6 @@ class BookAdminView(EagerLoadingAdminChangeListMixin, ImportExportModelAdmin):
 
     def author_names(self, book) -> str:
         return book.author_names
+
+    def image_tag(self, book) -> str:
+        return image_tag_thumbnail(book.image)

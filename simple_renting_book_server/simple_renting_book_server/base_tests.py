@@ -14,6 +14,7 @@ class BaseAPITestCase(APITestCase):
 
         self.client_user = None
         self.response = None
+        self.query_params = None
 
     def given_a_new_user(
         self, email="normal_user@mockup.test", password="strongpassword", role=None
@@ -34,8 +35,14 @@ class BaseAPITestCase(APITestCase):
         self.client_user = user
         self.client.force_login(user)
 
+    def given_query_params(self, query_params):
+        self.query_params = query_params
+
+    def given_page_query_param(self, page):
+        self.given_query_params({"page": page})
+
     def when_user_get_json(self, format="json"):
-        self.response = self.client.get(self.url, format=format)
+        self.response = self.client.get(self.url, self.query_params, format=format)
         self.response_json = self.response.json()
 
     def when_user_patch_and_get_json(self, data, format="json"):
