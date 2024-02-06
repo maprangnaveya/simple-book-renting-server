@@ -1,4 +1,7 @@
+import os
+
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 
@@ -14,6 +17,12 @@ class Author(models.Model):
 
 
 class Book(models.Model):
+    def _image_path(instance, filename):
+        _name, extension = os.path.splitext(filename)
+        datetime_str = timezone.now().strftime("%y%m%d_%H%M%S%f")
+
+        return f"public/books/cover_{datetime_str}{extension}"
+
     isbn = models.CharField(
         _("ISBN: The International Standard Book Number"),
         max_length=255,
@@ -24,6 +33,7 @@ class Book(models.Model):
     authors = models.ManyToManyField(Author, blank=False, related_name="books")
     published_at = models.DateTimeField(_("Published At"), blank=True, null=True)
     total_in_store = models.PositiveSmallIntegerField(_("Total In Store"), default=0)
+    image = models.ImageField(blank=True, null=True, upload_to=_image_path)
     created_at = models.DateTimeField(_("Created At"), auto_now_add=True)
 
     class Meta:
