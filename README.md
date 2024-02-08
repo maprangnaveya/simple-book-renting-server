@@ -9,6 +9,11 @@ docker compose up
 email: dev@mockupemail.com
 password: random-user-pass!
 
+### URLs
+1. [localhost:8000:/admin/](http://localhost:8000/admin/): Django admin
+2. [localhost:8000:/api-explorer/](http://localhost:8000/api-explorer/): Django API explorer
+
+
 ## Import books data
 
 1. Import by static file
@@ -34,3 +39,4 @@ python manage.py load_books_from_openlibrary
 - [ ] Setup MailCatcher to test send email on local env
 - [ ] Scheduled task send email reminder user when the due date(return date) less than x days
 - [ ] Scheduled task send email reminder renting is overdue
+- [ ] Unit testing
